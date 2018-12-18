@@ -12,86 +12,85 @@ class UserModel {
     this.model = new Model();
   }
   
-  /**
-   * 全件取得する
-   * 
-   * @return Entity の配列を Resolve する
-   */
-  findAll() {
-    const sql = `
-      SELECT
-          id,
-          name,
-          age
-      FROM
-          user
-    `;
+  // /**
+  //  * 全件取得する
+  //  * 
+  //  * @return Entity の配列を Resolve する
+  //  */
+  // findAll() {
+  //   const sql = `
+  //     SELECT
+  //         id,
+  //         name,
+  //         age
+  //     FROM
+  //         user
+  //   `;
     
-    return this.model.findAll(sql)
-      .then((rows) => {
-        const users = [];
+  //   return this.model.findAll(sql)
+  //     .then((rows) => {
+  //       const users = [];
         
-        for(const row of rows) {
-          users.push(new UserEntity(row.id, row.name, row.age));
-        }
+  //       for(const row of rows) {
+  //         users.push(new UserEntity(row.id, row.name, row.age));
+  //       }
         
-        return users;
-      });
-  }
+  //       return users;
+  //     });
+  // }
   
   /**
    * ID を指定して1件検索する
    * 
-   * @param id ID
+   * @param uid ID
    * @return Entity を Resolve する
    */
-  findById(id) {
+  findById(uid) {
     const sql = `
       SELECT
-          id,
+          uid,
           name,
-          age
+          wallet
       FROM
           user
       WHERE
-          id = $id
+          uid = $uid
     `;
     const params = {
-      $id: id
+      $uid: uid
     };
     
     return this.model.findOne(sql, params)
       .then((row) => {
-        return new UserEntity(row.id, row.name, row.age);
+        return new UserEntity(row.uid, row.name, row.wallet);
       });
   }
   
-  /**
-   * 登録する
-   * 
-   * @param user 登録情報を持つ Entity
-   * @return 登録できたら Resolve する
-   */
+  ///**
+  // * 登録する
+  // * 
+  // * @param user 登録情報を持つ Entity
+  // * @return 登録できたら Resolve する
+  // */
   create(user) {
     // ID は自動採番させる
+    console.log('u-m1');
     const sql = `
       INSERT INTO user (
           name,
-          age
+          wallet
       ) VALUES (
           $name,
-          $age
+          $wallet
       )
     `;
     const params = {
       $name: user.name,
-      $age : user.age
+      $wallet : user.wallet
     };
-    
     return this.model.run(sql, params)
       .then((id) => {
-        // 登録したデータを返却する
-        return this.findById(id);
+        return id
       });
   }
   
@@ -104,43 +103,43 @@ class UserModel {
   update(user) {
     const sql = `
       REPLACE INTO user (
-          id,
+          uid,
           name,
-          age
+          wallet
       ) VALUES (
-          $id,
+          $uid,
           $name,
-          $age
+          $wallet
       )
     `;
     const params = {
-      $id  : user.id,
+      $uid  : user.uid,
       $name: user.name,
-      $age : user.age
+      $wallet : user.wallet
     };
     
     return this.model.run(sql, params);
   }
   
-  /**
-   * 削除する
-   * 
-   * @param id ID
-   * @return 削除できたら Resolve する
-   */
-  delete(id) {
-    const sql = `
-      DELETE FROM
-          user
-      WHERE
-          id = $id
-    `;
-    const params = {
-      $id: id
-    };
+  // /**
+  //  * 削除する
+  //  * 
+  //  * @param id ID
+  //  * @return 削除できたら Resolve する
+  //  */
+  // delete(id) {
+  //   const sql = `
+  //     DELETE FROM
+  //         user
+  //     WHERE
+  //         id = $id
+  //   `;
+  //   const params = {
+  //     $id: id
+  //   };
     
-    return this.model.run(sql, params);
-  }
+  //   return this.model.run(sql, params);
+  // }
 }
 
 module.exports = UserModel;

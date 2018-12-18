@@ -14,16 +14,16 @@ class UsersController {
     this.userModel = new UserModel();
   }
   
-  /**
-   * 全件取得する
-   * 
-   * @param res レスポンス
-   */
-  findAll(res) {
-    this.userModel.findAll()
-      .then(this.controller.findSuccess(res))
-      .catch(this.controller.findError(res));
-  }
+  // /**
+  //  * 全件取得する
+  //  * 
+  //  * @param res レスポンス
+  //  */
+  // findAll(res) {
+  //   this.userModel.findAll()
+  //     .then(this.controller.findSuccess(res))
+  //     .catch(this.controller.findError(res));
+  // }
   
   /**
    * ID を指定して1件取得する
@@ -32,9 +32,9 @@ class UsersController {
    * @param res レスポンス
    */
   findById(req, res) {
-    const id = req.params.id;
+    const uid = req.params.uid;
     
-    this.userModel.findById(id)
+    this.userModel.findById(uid)
       .then(this.controller.findSuccess(res))
       .catch(this.controller.findError(res));
   }
@@ -49,10 +49,13 @@ class UsersController {
     const user = new UserEntity();
     // user.id = req.body.id;
     user.name = req.body.name;
-    user.age = req.body.age;
-    
+    user.wallet = 0;
+    console.log('u-c');
     this.userModel.create(user)
-      .then(this.controller.createSuccess(res))
+      .then((resid)=>{
+        console.log('resid'+resid)
+        this.controller.createSuccess(res,resid);
+      })
       .catch(this.controller.editError(res));
   }
   
@@ -62,35 +65,39 @@ class UsersController {
    * @param req リクエスト
    * @param res レスポンス
    */
-  update(req, res) {
-    const user = new UserEntity(req.body.id, req.body.name, req.body.age);
+  pay(req, res) {
+    let newwallet = req.body.user.wallet;
+    for(let i = 0; i < req.body.cart.length; i++) {
+      newwallet -= req.body.cart[i].price;
+    }
+    const user = new UserEntity(req.body.user.uid, req.body.user.name, newwallet);
     
     this.userModel.update(user)
       .then(this.controller.editSuccess(res))
       .catch(this.controller.editError(res));
   }
   
-  /**
-   * 削除する
-   * 
-   * @param req リクエスト
-   * @param res レスポンス
-   */
-  delete(req, res) {
-    const id = req.params.id;
+  // /**
+  //  * 削除する
+  //  * 
+  //  * @param req リクエスト
+  //  * @param res レスポンス
+  //  */
+  // delete(req, res) {
+  //   const id = req.params.id;
     
-    this.userModel.delete(id)
-      .then(this.controller.editSuccess(res))
-      .catch((error) => {
-        if(error.errorCode === 21) {
-          // 削除対象がなかった場合は 404
-          return this.controller.deleteError(res)();
-        }
-        else {
-          return this.controller.editError(res)();
-        }
-      });
-  }
+  //   this.userModel.delete(id)
+  //     .then(this.controller.editSuccess(res))
+  //     .catch((error) => {
+  //       if(error.errorCode === 21) {
+  //         // 削除対象がなかった場合は 404
+  //         return this.controller.deleteError(res)();
+  //       }
+  //       else {
+  //         return this.controller.editError(res)();
+  //       }
+  //     });
+  // }
 }
 
 module.exports = UsersController;

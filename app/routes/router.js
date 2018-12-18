@@ -10,8 +10,10 @@ router.use((req, res, next) => {
   // 処理を続行させる
   next();
 });
-
+router.options('*', function (req, res) {
+  res.sendStatus(200);
+});
 // API 別にルータを設定する
 router.use('/users', require('./users-router'));
-
+router.use('/item', require('./item-router'));
 module.exports = router;

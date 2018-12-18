@@ -5,14 +5,14 @@ class UserEntity {
   /**
    * コンストラクタ
    * 
-   * @param id ID
+   * @param uid ID
    * @param name 氏名
-   * @param age 年齢
+   * @param wallet zandaka
    */
-  constructor(id, name, age) {
-    this.id   = id;
+  constructor(uid, name, wallet) {
+    this.uid   = uid;
     this.name = name;
-    this.age  = age;
+    this.wallet  = wallet;
   }
 }
 

@@ -34,11 +34,10 @@ class Controller {
    * @param res レスポンス
    * @return レスポンス
    */
-  createSuccess(res) {
-    return (result) => {
-      res.status(200);
-      res.json(result);
-    };
+  createSuccess(res,id) {
+    console.log(id+'aaa')
+    res.status(200);
+    res.json(id);
   }
   
   /**
