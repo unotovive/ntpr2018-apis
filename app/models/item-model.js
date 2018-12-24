@@ -2,7 +2,7 @@ const Model = require('./model');
 const ItemEntity = require('../entities/item-entity');
 
 /**
- * Item Model
+ * User Model
  */
 class ItemModel {
   /**
@@ -41,75 +41,61 @@ class ItemModel {
       });
   }
   
-  /**
-   * ID を指定して1件検索する
-   * 
-   * @param id ID
-   * @return Entity を Resolve する
-   */
-  findById(id) {
-    console.log("oooook")
-    const sql = `
-      SELECT
-          Jan,
-          name,
-          price,
-          amount,
-          img
-      FROM
-          item
-      WHERE
-          Jan = $id
-    `;
-    const params = {
-      $id: id
-    };
+  // /**
+  //  * ID を指定して1件検索する
+  //  * 
+  //  * @param id ID
+  //  * @return Entity を Resolve する
+  //  */
+  // findById(id) {
+  //   const sql = `
+  //     SELECT
+  //         id,
+  //         name,
+  //         age
+  //     FROM
+  //         user
+  //     WHERE
+  //         id = $id
+  //   `;
+  //   const params = {
+  //     $id: id
+  //   };
     
-    return this.model.findOne(sql, params)
-      .then((row) => {
-        console.log(id)
-        return new ItemEntity(row.Jan, row.name, row.price,row,amount,row.img);
-      });
-  }
+  //   return this.model.findOne(sql, params)
+  //     .then((row) => {
+  //       return new UserEntity(row.id, row.name, row.age);
+  //     });
+  // }
   
   // /**
   //  * 登録する
   //  * 
-  //  * @param item 登録情報を持つ Entity
+  //  * @param user 登録情報を持つ Entity
   //  * @return 登録できたら Resolve する
   //  */
-  create(item) {
-    console.log("i-c")
-    const sql = `
-      INSERT INTO item (
-          jan,
-          name,
-          price,
-          amount,
-          img
-      ) VALUES (
-        $jan,
-        $name,
-        $price,
-        $amount,
-        $img
-      )
-    `;
-    const params = {
-        $jan:item.jan,
-        $name:item.name,
-        $price:item.price,
-        $amount:item.amount,
-        $img:item.img
-    };
+  // create(user) {
+  //   // ID は自動採番させる
+  //   const sql = `
+  //     INSERT INTO user (
+  //         name,
+  //         age
+  //     ) VALUES (
+  //         $name,
+  //         $age
+  //     )
+  //   `;
+  //   const params = {
+  //     $name: user.name,
+  //     $age : user.age
+  //   };
     
-      return this.model.run(sql, params)
-      .then((id) => {
-        // 登録したデータを返却する
-        return id;
-      });
-  }
-  
+  //   return this.model.run(sql, params)
+  //     .then((id) => {
+  //       // 登録したデータを返却する
+  //       return this.findById(id);
+  //     });
+  // }
   
   // /**
   //  * 登録 or 更新する
@@ -138,25 +124,25 @@ class ItemModel {
   //   return this.model.run(sql, params);
   // }
   
-  /**
-   * 削除する
-   * 
-   * @param jan Jan
-   * @return 削除できたら Resolve する
-   */
-  delete(jan) {
-    const sql = `
-      DELETE FROM
-          item
-      WHERE
-          jan = $jan
-    `;
-    const params = {
-      $jan: jan
-    };
+  // /**
+  //  * 削除する
+  //  * 
+  //  * @param id ID
+  //  * @return 削除できたら Resolve する
+  //  */
+  // delete(id) {
+  //   const sql = `
+  //     DELETE FROM
+  //         user
+  //     WHERE
+  //         id = $id
+  //   `;
+  //   const params = {
+  //     $id: id
+  //   };
     
-    return this.model.run(sql, params);
-  }
+  //   return this.model.run(sql, params);
+  // }
 }
 
 module.exports = ItemModel;
