@@ -66,19 +66,17 @@ delete(req, res) {
 }
 
 /**
- * 登録 or 更新する
+ * 更新する
  * 
  * @param req リクエスト
  * @param res レスポンス
  */
 edit(req, res) {
-  let newwallet = req.body.user.wallet;
-  for(let i = 0; i < req.body.cart.length; i++) {
-    newwallet -= req.body.cart[i].price;
-  }
-  const user = new UserEntity(req.body.user.uid, req.body.user.name, newwallet);
+  const jan = req.prams.jan;
+
+  const item= new ItemEntity(jan, req.body.item.name, req.body.item.price,req.body.item.amount,req.body,item.img);
   
-  this.userModel.update(user)
+  this.ItemModel.update(item)
     .then(this.controller.editSuccess(res))
     .catch(this.controller.editError(res));
 }

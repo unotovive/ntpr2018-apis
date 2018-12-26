@@ -63,11 +63,37 @@ class ItemModel {
   }
   
   
-  // /**
-  //  * 登録 or 更新する
+  /**
+   * 登録 or 更新する
+   * @param jan Jan
+   * @return 更新できたら Resolve する
+   */
+  update(item){
+    const sql = `
+      REPLACE INTO item (
+        jan,
+        name,
+        price,
+        amount,
+        img
+      ) VALUES (
+        $jan,
+        $name,
+        $price,
+        $amount,
+        $img
+      )
+    `;
 
-  //   return this.model.run(sql, params);
-  // }
+    const params = {
+      $jan:item.jan,
+      $name:item.name,
+      $price:item.price,
+      $amount:item.amount,
+      $img:item.img
+  };
+    return this.model.run(sql, params);
+  }
   
 
   /**
