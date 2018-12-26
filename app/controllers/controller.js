@@ -39,6 +39,7 @@ class Controller {
     res.status(200);
     res.json(id);
   }
+
   
   /**
    * 削除対象がない場合の失敗時処理

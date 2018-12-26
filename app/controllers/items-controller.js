@@ -38,7 +38,9 @@ create(req, res) {
   this.itemModel.create(item)
     .then((resid)=>{
       console.log('resid'+resid)
-      this.controller.createSuccess(res,resid);
+      this.itemModel.findAll()
+      .then(this.controller.findSuccess(res))
+      .catch(this.controller.findError(res));
     })
     .catch(this.controller.editError(res));
 }
@@ -72,11 +74,10 @@ delete(req, res) {
  * @param res レスポンス
  */
 edit(req, res) {
-  const jan = req.prams.jan;
-
-  const item= new ItemEntity(jan, req.body.item.name, req.body.item.price,req.body.item.amount,req.body,item.img);
-  
-  this.ItemModel.update(item)
+  const jan = req.body.jan;
+  const item= new ItemEntity(jan, req.body.name, req.body.price,req.body.amount,req.body.img);
+  console.log("i-c")
+  this.itemModel.update(item)
     .then(this.controller.editSuccess(res))
     .catch(this.controller.editError(res));
 }

@@ -5,6 +5,12 @@ const ItemEntity = require('../entities/item-entity');
  * Item Model
  */
 class ItemModel {
+  /**
+   * コンストラクタ
+   */
+  constructor() {
+    this.model = new Model();
+  }
  
   findById(id) {
     console.log("oooook")
@@ -27,6 +33,37 @@ class ItemModel {
       .then((row) => {
         console.log(id)
         return new ItemEntity(row.Jan, row.name, row.price,row,amount,row.img);
+      });
+  }
+
+
+   /**
+   * 全件取得する
+   * 
+   * @return Entity の配列を Resolve する
+   */
+  findAll() {
+    console.log("i-m");
+    const sql = `
+      SELECT
+          jan,
+          name,
+          price,
+          amount,
+          img
+      FROM
+          item
+    `;
+    
+    return this.model.findAll(sql)
+      .then((rows) => {
+        const items = [];
+        
+        for(const row of rows) {
+          items.push(new ItemEntity(row.jan, row.name, row.price, row.amount, row.img));
+        }
+        
+        return items;
       });
   }
   
@@ -69,6 +106,7 @@ class ItemModel {
    * @return 更新できたら Resolve する
    */
   update(item){
+    console.log("i-up")
     const sql = `
       REPLACE INTO item (
         jan,
