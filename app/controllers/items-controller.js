@@ -41,7 +41,10 @@ create(req, res) {
       .then(this.controller.findSuccess(res))
       .catch(this.controller.findError(res));
     })
-    .catch(this.controller.editError(res));
+    .catch((error) => {
+      error.errorMessage="Arleady Exist";
+      this.controller.editError(res)(error)
+    });
 }
 
 /**
@@ -52,16 +55,19 @@ create(req, res) {
  */
 delete(req, res) {
   const jan = req.body.jan;
-  console.log(req.body.jan);
   this.itemModel.delete(jan)
-    .then(this.controller.editSuccess(res))
-    .catch((error) => {
-      if(error.errorCode === 21) {
-        // 削除対象がなかった場合は 404
-        return this.controller.deleteError(res)();
+  .then(()=>{
+    this.itemModel.findAll()
+    .then(this.controller.findSuccess(res))
+    .catch(this.controller.findError(res));
+})
+  .catch((error) => {
+      if(error.errorCode == 21) {
+        error.errorMessage="Is Not Exist"
+        this.controller.deleteError(res)(error);
       }
       else {
-        return this.controller.editError(res)();
+        this.controller.editError(res)(error);
       }
     });
 }
@@ -76,8 +82,15 @@ edit(req, res) {
   const jan = req.body.jan;
   const item= new ItemEntity(jan, req.body.name, req.body.price,req.body.amount,req.body.img);
   this.itemModel.update(item)
-    .then(this.controller.editSuccess(res))
-    .catch(this.controller.editError(res));
+  .then(()=>{
+    this.itemModel.findAll()
+    .then(this.controller.findSuccess(res))
+    .catch(this.controller.findError(res));
+})
+    .catch((error) => {
+      error.errorMessage="Is Not Exist"
+      this.controller.editError(res)(error)
+    });
     }
 }
 
