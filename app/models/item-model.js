@@ -13,10 +13,9 @@ class ItemModel {
   }
  
   findById(id) {
-    console.log("oooook")
     const sql = `
       SELECT
-          Jan,
+          jan,
           name,
           price,
           amount,
@@ -24,15 +23,14 @@ class ItemModel {
       FROM
           item
       WHERE
-          Jan = $id
+          jan = $id
     `;
     const params = {
       $id: id
     };
     return this.model.findOne(sql, params)
       .then((row) => {
-        console.log(id)
-        return new ItemEntity(row.Jan, row.name, row.price,row,amount,row.img);
+        return new ItemEntity(row.Jan, row.name, row.price, row,amount, row.img);
       });
   }
 
@@ -43,7 +41,6 @@ class ItemModel {
    * @return Entity の配列を Resolve する
    */
   findAll() {
-    console.log("i-m");
     const sql = `
       SELECT
           jan,
@@ -57,19 +54,16 @@ class ItemModel {
     
     return this.model.findAll(sql)
       .then((rows) => {
-        const items = [];
-        
+        const items = [];        
         for(const row of rows) {
           items.push(new ItemEntity(row.jan, row.name, row.price, row.amount, row.img));
-        }
-        
+        }        
         return items;
       });
   }
   
   
   create(item) {
-    console.log("i-c")
     const sql = `
       INSERT INTO item (
           jan,
@@ -106,7 +100,6 @@ class ItemModel {
    * @return 更新できたら Resolve する
    */
   update(item){
-    console.log("i-up")
     const sql = `
       REPLACE INTO item (
         jan,

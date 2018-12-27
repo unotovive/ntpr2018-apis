@@ -13,19 +13,18 @@ router.get('/all', (req, res) => {
 });
 
 +//アイテム追加
-router.post('/add', (req,res) =>{
-  itemController.create(req,res);
+router.post('/add', (req, res) => {
+  itemController.create(req, res);
 })
 
 //アイテム削除
-router.delete('/remove',(req,res) =>{
-  itemController.delete(req,res);
+router.delete('/remove', (req, res) => {
+  itemController.delete(req, res);
 })
 
 //アイテム更新
-router.put('/edit',(req,res) =>{
-  itemController.edit(req,res);
+router.put('/edit', (req, res) => {
+  itemController.edit(req, res);
 })
 
 module.exports = router;
-

@@ -37,7 +37,6 @@ create(req, res) {
   item.img = req.body.img;
   this.itemModel.create(item)
     .then((resid)=>{
-      console.log('resid'+resid)
       this.itemModel.findAll()
       .then(this.controller.findSuccess(res))
       .catch(this.controller.findError(res));
@@ -76,13 +75,10 @@ delete(req, res) {
 edit(req, res) {
   const jan = req.body.jan;
   const item= new ItemEntity(jan, req.body.name, req.body.price,req.body.amount,req.body.img);
-  console.log("i-c")
   this.itemModel.update(item)
     .then(this.controller.editSuccess(res))
     .catch(this.controller.editError(res));
-}
-
-
+    }
 }
 
 module.exports = ItemsController;
