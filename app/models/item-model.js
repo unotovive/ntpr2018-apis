@@ -101,19 +101,14 @@ class ItemModel {
    */
   update(item){
     const sql = `
-      REPLACE INTO item (
-        jan,
-        name,
-        price,
-        amount,
-        img
-      ) VALUES (
-        $jan,
-        $name,
-        $price,
-        $amount,
-        $img
-      )
+      UPDATE item 
+      SET 
+          name= $name,
+          price= $price,
+          amount= $amount,
+          img= $img
+      WHERE 
+          jan= $jan
     `;
 
     const params = {
